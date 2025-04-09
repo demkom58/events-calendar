@@ -359,4 +359,55 @@ onMounted(() => {
 .event-title {
   cursor: pointer;
 }
+
+@media (max-width: 600px) {
+  .calendar-view {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .calendar-header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.5rem;
+  }
+
+  .nav-controls,
+  .action-controls {
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+
+  .nav-controls h2 {
+    font-size: 1rem;
+  }
+
+  .weekdays {
+    font-size: 0.75rem;
+    padding: 0.25rem;
+  }
+
+  .days-grid {
+    grid-template-columns: repeat(7, 1fr);
+    padding: 0.25rem;
+  }
+
+  .day-cell {
+    min-height: 80px;
+  }
+
+  .date-num {
+    font-size: 0.7rem;
+    margin: 0.15rem;
+  }
+
+  .calendar-event {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.3rem;
+  }
+
+  .event-title {
+    font-size: 0.65rem;
+  }
+}
 </style>
