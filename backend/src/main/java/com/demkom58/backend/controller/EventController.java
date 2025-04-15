@@ -1,6 +1,8 @@
 package com.demkom58.backend.controller;
 
+import com.demkom58.backend.dto.EventMapper;
 import com.demkom58.backend.dto.EventMutateDtoV1;
+import com.demkom58.backend.dto.EventResponseDtoV1;
 import com.demkom58.backend.model.Event;
 import com.demkom58.backend.service.EventService;
 import com.demkom58.backend.service.exceptions.ItemNotFoundException;
@@ -17,30 +19,33 @@ import java.util.List;
 @CrossOrigin
 public class EventController {
     private final EventService eventService;
+    private final EventMapper eventMapper;
 
-    public EventController(EventService eventService) {
+    public EventController(EventService eventService, EventMapper eventMapper) {
         this.eventService = eventService;
+        this.eventMapper = eventMapper;
     }
 
     @PostMapping
-    public Event addEvent(@Valid @RequestBody EventMutateDtoV1 event) {
-        return eventService.createEvent(event);
+    public EventResponseDtoV1 addEvent(@Valid @RequestBody EventMutateDtoV1 event) {
+        return eventMapper.toResponseDto(eventService.createEvent(event));
     }
 
     @GetMapping
-    public List<Event> getAllEvents() {
-        return eventService.listEvents();
+    public List<EventResponseDtoV1> getAllEvents() {
+        return eventService.listEvents().stream().map(eventMapper::toResponseDto).toList();
     }
 
     @GetMapping("/{id}")
-    public Event getEventById(@PathVariable Long id) {
+    public EventResponseDtoV1 getEventById(@PathVariable Long id) {
         return eventService.getEvent(id)
+                .map(eventMapper::toResponseDto)
                 .orElseThrow(() -> new ItemNotFoundException("Event with id " + id + " not found"));
     }
 
     @PutMapping("/{id}")
-    public Event updateEvent(@PathVariable Long id, @Valid @RequestBody EventMutateDtoV1 event) {
-        return eventService.updateEvent(id, event);
+    public EventResponseDtoV1 updateEvent(@PathVariable Long id, @Valid @RequestBody EventMutateDtoV1 event) {
+        return eventMapper.toResponseDto(eventService.updateEvent(id, event));
     }
 
     @DeleteMapping("/{id}")

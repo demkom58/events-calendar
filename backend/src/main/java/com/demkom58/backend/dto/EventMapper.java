@@ -12,4 +12,15 @@ public class EventMapper {
         event.setEndDateTime(mutateDto.getEndDateTime());
         event.setLocation(mutateDto.getLocation());
     }
+
+    public EventResponseDtoV1 toResponseDto(Event event) {
+        EventResponseDtoV1 responseDto = new EventResponseDtoV1();
+        responseDto.setId(event.getId());
+        responseDto.setTitle(event.getTitle());
+        responseDto.setDescription(event.getDescription());
+        responseDto.setStartDateTime(event.getStartDateTime());
+        responseDto.setEndDateTime(event.getEndDateTime());
+        responseDto.setLocation(event.getLocation());
+        return responseDto;
+    }
 }
