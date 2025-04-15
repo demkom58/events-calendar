@@ -6,7 +6,7 @@
   <RouterView />
 </template>
 
-<style>
+<style lang="scss">
 body {
   margin: 40px;
   font-family: Arial, sans-serif;

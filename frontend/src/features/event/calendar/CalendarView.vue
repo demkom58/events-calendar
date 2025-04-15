@@ -206,7 +206,7 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .calendar-view {
   max-width: 900px;
   margin: 2rem auto;
@@ -214,89 +214,146 @@ onMounted(() => {
   border: 1px solid #ddd;
   border-radius: 4px;
   overflow: hidden;
-}
 
-.calendar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  background: #f1f3f5;
-  border-bottom: 1px solid #ddd;
-}
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #f1f3f5;
+    border-bottom: 1px solid #ddd;
 
-.nav-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
 
-.nav-controls h2 {
-  margin: 0;
-  font-size: 1.25rem;
-}
+      h2 {
+        margin: 0;
+        font-size: 1.25rem;
+      }
+    }
 
-.action-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+    .action-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
 
-.weekdays {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  text-align: center;
-  font-weight: bold;
-  padding: 0.5rem;
-  background: #e9ecef;
-  border-bottom: 1px solid #ddd;
-}
+  .weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: bold;
+    padding: 0.5rem;
+    background: #e9ecef;
+    border-bottom: 1px solid #ddd;
+  }
 
-.days-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 0.0rem;
-  padding: 0.5rem;
-}
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+    padding: 0.5rem;
+  }
 
-.day-cell {
-  background: #fafafa;
-  border: 1px solid #eee;
-  min-height: 120px;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
+  .day-cell {
+    background: #fafafa;
+    border: 1px solid #eee;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 
-.day-cell.empty {
-  background: transparent;
-  border: none;
-  padding: 0;
-}
+    &.empty {
+      background: transparent;
+      border: none;
+      padding: 0;
+    }
 
-.date-num {
-  font-size: 0.8rem;
-  font-weight: bold;
-  margin: 0.25rem;
-}
+    .date-num {
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin: 0.25rem;
+    }
 
-.events-list {
-  display: flex;
-  flex-grow: 1;
-  align-items: flex-start;
-  flex-direction: column;
-  gap: 0.25rem;
-  margin: 0 0 10px;
-  padding: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  transition: opacity 0.5s ease;
-  opacity: 1;
-}
+    .events-list {
+      display: flex;
+      flex-grow: 1;
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.25rem;
+      margin: 0 0 10px;
+      padding: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      transition: opacity 0.5s ease;
+      opacity: 1;
 
-.events-list.fade-in {
-  opacity: 0;
-  animation: fadeIn 0.5s forwards;
+      &.fade-in {
+        opacity: 0;
+        animation: fadeIn 0.5s forwards;
+      }
+
+      .calendar-event {
+        width: 100%;
+        box-sizing: border-box;
+        background: #373737;
+        color: #fff;
+        padding: 0.25rem 0.4rem;
+        font-size: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &.event-start {
+          margin-left: 10px;
+          border-top-left-radius: 6px;
+          border-bottom-left-radius: 6px;
+        }
+
+        &.event-end {
+          width: 80%;
+          min-width: fit-content;
+          margin-right: 10px;
+          border-top-right-radius: 6px;
+          border-bottom-right-radius: 6px;
+        }
+
+        &.event-start.event-end {
+          border-radius: 4px;
+        }
+
+        .event-title {
+          cursor: pointer;
+          flex-grow: 1;
+          margin-right: 0.25rem;
+          padding: 0.2rem;
+        }
+      }
+    }
+  }
+
+  .month-event-list {
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .event-title {
+      cursor: pointer;
+    }
+  }
 }
 
 @keyframes fadeIn {
@@ -305,109 +362,56 @@ onMounted(() => {
   }
 }
 
-.calendar-event {
-  width: 100%;
-  box-sizing: border-box;
-  background: #373737;
-  color: #fff;
-  padding: 0.25rem 0.4rem;
-  font-size: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.calendar-event.event-start {
-  margin-left: 10px;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
-}
-
-.calendar-event.event-end {
-  width: 80%;
-  min-width: fit-content;
-  margin-right: 10px;
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
-}
-
-.calendar-event.event-start.event-end {
-  border-radius: 4px;
-}
-
-.event-title {
-  cursor: pointer;
-  flex-grow: 1;
-  margin-right: 0.25rem;
-  padding: 0.2rem 0.2rem;
-}
-
-.month-event-list ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.month-event-list li {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.event-title {
-  cursor: pointer;
-}
-
 @media (max-width: 600px) {
   .calendar-view {
     max-width: 100%;
     margin: 0 auto;
-  }
 
-  .calendar-header {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 0.5rem;
-  }
+    .calendar-header {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 0.5rem;
 
-  .nav-controls,
-  .action-controls {
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-  }
+      .nav-controls,
+      .action-controls {
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+      }
 
-  .nav-controls h2 {
-    font-size: 1rem;
-  }
+      .nav-controls {
+        h2 {
+          font-size: 1rem;
+        }
+      }
+    }
 
-  .weekdays {
-    font-size: 0.75rem;
-    padding: 0.25rem;
-  }
+    .weekdays {
+      font-size: 0.75rem;
+      padding: 0.25rem;
+    }
 
-  .days-grid {
-    grid-template-columns: repeat(7, 1fr);
-    padding: 0.25rem;
-  }
+    .days-grid {
+      grid-template-columns: repeat(7, 1fr);
+      padding: 0.25rem;
+    }
 
-  .day-cell {
-    min-height: 80px;
-  }
+    .day-cell {
+      min-height: 80px;
 
-  .date-num {
-    font-size: 0.7rem;
-    margin: 0.15rem;
-  }
+      .date-num {
+        font-size: 0.7rem;
+        margin: 0.15rem;
+      }
 
-  .calendar-event {
-    font-size: 0.65rem;
-    padding: 0.15rem 0.3rem;
-  }
+      .calendar-event {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.3rem;
 
-  .event-title {
-    font-size: 0.65rem;
+        .event-title {
+          font-size: 0.65rem;
+        }
+      }
+    }
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {ref, watch, defineProps, defineEmits} from 'vue';
+import {ref, watch} from 'vue';
 import {type Event} from '@entities/event/model';
 
 const props = defineProps<{
@@ -67,14 +67,15 @@ function submitForm() {
   </form>
 </template>
 
-<style scoped>
+
+<style lang="scss" scoped>
+
 .error {
   color: red;
   margin-top: 0.5rem;
   font-size: 0.9rem;
 }
 
-/* You might also style input and textarea elements for consistency */
 input[type="text"],
 input[type="datetime-local"],
 textarea {
@@ -87,3 +88,4 @@ textarea {
 }
 
 </style>
+
