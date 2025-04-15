@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Getter
 @Setter
@@ -15,9 +15,9 @@ public class EventMutateDtoV1 {
     private String title;
     private String description;
     @NotNull(message = "Start date/time is required")
-    private LocalDateTime startDateTime;
+    private ZonedDateTime startDateTime;
     @NotNull(message = "End date/time is required")
-    private LocalDateTime endDateTime;
+    private ZonedDateTime endDateTime;
     private String location;
 
     @AssertTrue(message = "End date/time must be after start date/time")

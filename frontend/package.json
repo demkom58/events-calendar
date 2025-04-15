@@ -10,11 +10,14 @@
     "prod": "vite build && vite preview"
   },
   "dependencies": {
+    "axios": "^1.8.4",
+    "luxon": "^3.6.1",
     "pinia": "^3.0.1",
     "vue": "^3.5.13",
     "vue-router": "4"
   },
   "devDependencies": {
+    "@types/luxon": "^3.6.2",
     "@types/node": "^22.14.0",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/tsconfig": "^0.7.0",

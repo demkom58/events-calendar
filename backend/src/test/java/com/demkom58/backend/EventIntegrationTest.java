@@ -13,7 +13,8 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -80,7 +81,8 @@ public class EventIntegrationTest {
         createdEvent.setTitle("Updated Title");
         HttpEntity<Event> updateRequest = new HttpEntity<>(createdEvent, headers);
 
-        ResponseEntity<Event> putResponse = restTemplate.exchange("/events/" + createdEvent.getId(), HttpMethod.PUT, updateRequest, Event.class);
+        ResponseEntity<Event> putResponse = restTemplate.exchange("/events/" + createdEvent.getId(),
+                HttpMethod.PUT, updateRequest, Event.class);
         assertThat(putResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         Event updatedEvent = putResponse.getBody();
@@ -131,7 +133,7 @@ public class EventIntegrationTest {
     void Should_Return400_When_PostEventWithInvalidDates() {
         // Create an event with invalid dates
         Event invalidEvent = createTestEvent();
-        invalidEvent.setEndDateTime(LocalDateTime.of(2025, 4, 9, 9, 0, 0)); // End date is before start date
+        invalidEvent.setEndDateTime(ZonedDateTime.of(2025, 4, 9, 9, 0, 0, 0, ZoneId.of("UTC"))); // End date is before start date
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -155,7 +157,8 @@ public class EventIntegrationTest {
         Event createdEvent = postResponse.getBody();
 
         // Update the event with invalid dates
-        createdEvent.setEndDateTime(LocalDateTime.of(2025, 4, 9, 9, 0, 0)); // End date is before start date
+        createdEvent.setEndDateTime(ZonedDateTime.of(2025, 4, 9, 9,
+                0, 0, 0, ZoneId.of("UTC"))); // End date is before start date
 
         HttpEntity<Event> updateRequest = new HttpEntity<>(createdEvent, headers);
 
@@ -189,8 +192,8 @@ public class EventIntegrationTest {
         Event event = new Event();
         event.setTitle("Test Event");
         event.setDescription("Test Description");
-        event.setStartDateTime(LocalDateTime.of(2025, 4, 9, 10, 0, 0));
-        event.setEndDateTime(LocalDateTime.of(2025, 4, 9, 12, 0, 0));
+        event.setStartDateTime(ZonedDateTime.of(2025, 4, 9, 10, 0, 0, 0, ZoneId.of("UTC")));
+        event.setEndDateTime(ZonedDateTime.of(2025, 4, 9, 12, 0, 0, 0, ZoneId.of("UTC")));
         event.setLocation("Test Location");
         return event;
     }

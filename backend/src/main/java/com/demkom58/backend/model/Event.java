@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "events")
@@ -24,14 +24,14 @@ public class Event {
 
     @NotNull(message = "Start date/time is required")
     @Column(name = "start_date_time")
-    private LocalDateTime startDateTime;
+    private ZonedDateTime startDateTime;
 
     /**
      * The end date/time of the event. It must be after the start date/time.
      */
     @NotNull(message = "End date/time is required")
     @Column(name = "end_date_time")
-    private LocalDateTime endDateTime;
+    private ZonedDateTime endDateTime;
 
     private String location;
 }

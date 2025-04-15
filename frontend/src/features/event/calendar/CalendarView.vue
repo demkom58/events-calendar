@@ -119,7 +119,7 @@ function isEventEnd(ev: Event, day: number): boolean {
       eventEnd.getDate() === day;
 }
 
-// Navigation functions for month
+// Calendar top control handlers
 function nextMonth() {
   const year = currentDate.value.getFullYear();
   const month = currentDate.value.getMonth();
@@ -134,7 +134,6 @@ function prevMonth() {
   loadEvents();
 }
 
-// Load events from store and trigger fade-in animation
 async function loadEvents() {
   animateEvents.value = true;
   await eventStore.fetchEvents();
@@ -144,12 +143,10 @@ async function loadEvents() {
   }, 500);
 }
 
-// Refresh handler
 function handleRefresh() {
   loadEvents();
 }
 
-// Navigation actions:
 function viewEvent(id: number) {
   router.push({name: 'EventDetailsPage', params: {id}});
 }

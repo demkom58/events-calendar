@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import {ref, watch} from 'vue';
-import {type Event} from '@entities/event/model';
+import { ref, watch } from 'vue';
+import type { Event } from '@entities/event/model';
+import { formatLocalInputToISO, formatISOToLocalInput } from '@shared/lib/time-util';
 
 const props = defineProps<{
   initialEvent?: Event;
@@ -23,22 +24,32 @@ const localEvent = ref<Event>({
 const error = ref<string | null>(null);
 
 if (props.initialEvent) {
-  localEvent.value = {...props.initialEvent};
+  localEvent.value = {
+    ...props.initialEvent,
+    startDateTime: formatISOToLocalInput(props.initialEvent.startDateTime),
+    endDateTime: formatISOToLocalInput(props.initialEvent.endDateTime)
+  };
 }
 
-watch(() => localEvent.value, () => {
+watch(() => localEvent.value, (): void => {
   error.value = null;
 });
 
-function submitForm() {
-  if (new Date(localEvent.value.endDateTime) <= new Date(localEvent.value.startDateTime)) {
+function submitForm(): void {
+  const formattedStart: string = formatLocalInputToISO(localEvent.value.startDateTime);
+  const formattedEnd: string = formatLocalInputToISO(localEvent.value.endDateTime);
+
+  if (new Date(formattedEnd) <= new Date(formattedStart)) {
     error.value = 'End date/time must be after start date/time';
     return;
   }
+
+  localEvent.value.startDateTime = formattedStart;
+  localEvent.value.endDateTime = formattedEnd;
+
   emits('submit', localEvent.value);
 }
 </script>
-
 
 <template>
   <form @submit.prevent="submitForm">
@@ -67,15 +78,12 @@ function submitForm() {
   </form>
 </template>
 
-
 <style lang="scss" scoped>
-
 .error {
   color: red;
   margin-top: 0.5rem;
   font-size: 0.9rem;
 }
-
 input[type="text"],
 input[type="datetime-local"],
 textarea {
@@ -86,6 +94,4 @@ textarea {
   border-radius: 4px;
   box-sizing: border-box;
 }
-
 </style>
-

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-
+import Notifications from '@shared/components/Notifications.vue';
 </script>
 
 <template>
   <RouterView />
+  <Notifications />
 </template>
 
 <style lang="scss">
